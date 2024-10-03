@@ -3,39 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - Cloe Fundación</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Contacto | Fundación Cloe</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <img src="images/logo.png" alt="Cloe Fundación Logo" class="logo">
         <nav>
-            <a href="index.html">Inicio</a>
-            <a href="acerca.html">Acerca De</a>
-            <a href="mission.html">Misión</a>
-            <a href="equipo.html">Equipo</a>
-            <a href="servicios.html">Servicios</a>
-            <a href="donar.html">Donar</a>
+            <div class="logo">
+                <img src="logo.png" alt="Fundación Cloe Logo">
+            </div>
+            <ul>
+                <li><a href="acerca.html">Acerca De</a></li>
+                <li><a href="mision.html">Misión</a></li>
+                <li><a href="equipo.html">Equipo</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="donar.html">Donar</a></li>
+            </ul>
+            <a href="comenzar.html" class="btn">Comenzar</a>
         </nav>
     </header>
+
     <section class="contact">
-        <h1>Contáctanos</h1>
-        <form action="submit_form.php" method="POST">
-            <label for="name">Nombre:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="message">Mensaje:</label>
-            <textarea id="message" name="message" required></textarea>
-            
-            <button type="submit">Enviar</button>
+        <h1>Comencemos</h1>
+        <p>
+            ¿Tienes un sitio web y necesitas ayuda? Sea mejorándolo o simplemente darle una nueva vida, hablemos en qué te puedo ayudar.
+        </p>
+        <form action="submit_form.php" method="post">
+            <div class="form-group">
+                <label for="name">Nombre (obligatorio):</label>
+                <input type="text" id="name" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email (obligatorio):</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="foundation-name">Nombre de tu fundación (obligatorio):</label>
+                <input type="text" id="foundation-name" name="fundacion" required>
+            </div>
+            <div class="form-group">
+                <label for="service">Selecciona Servicio (obligatorio):</label>
+                <select id="service" name="servicio" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="creacion">Creación de sitio web</option>
+                    <option value="mantenimiento">Mantenimiento de sitio web</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Mensaje (obligatorio):</label>
+                <textarea id="message" name="mensaje" required></textarea>
+            </div>
+            <button type="submit" class="btn">Enviar</button>
         </form>
     </section>
+
     <footer>
-        <p>&copy; 2024 Cloe Fundación</p>
-        <a href="https://instagram.com/fundacioncloe" target="_blank">Instagram</a>
+        <div class="footer-logo">
+            <img src="logo-footer.png" alt="Fundación Cloe Logo">
+        </div>
+        <ul>
+            <li><a href="acerca.html">Acerca De</a></li>
+            <li><a href="mision.html">Misión</a></li>
+            <li><a href="equipo.html">Equipo</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="donar.html">Donar</a></li>
+        </ul>
+        <p>Sigue nuestro Instagram: <a href="https://instagram.com/fundacioncloe">@fundacioncloe</a></p>
     </footer>
 </body>
 </html>
