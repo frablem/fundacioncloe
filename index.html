@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundación Cloe – Construyendo una voz para los animales</title>
+  <meta name="description" content="Diseño y desarrollo gratuitos de sitios web para fundaciones de animales. Presencia digital moderna, accesible y fácil de mantener." />
+  <meta name="theme-color" content="#FAF7EA" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300..800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --color-bg: #FAF7EA;   /* main */
+      --color-accent: #A6764B; /* secondary */
+      --glass-bg: rgba(255,255,255,.45);
+      --glass-border: rgba(255,255,255,.55);
+      --ink: #2E2A25;
+      --header-h: 96px; /* fallback */
+    }
+    html{scroll-behavior:smooth; scroll-padding-top: var(--header-h);} /* ensure anchors clear fixed header */
+    body{
+      font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink);
+      background: var(--color-bg);
+      overflow-x: hidden;
+    }
+    .display{font-family: "Playfair Display", Georgia, serif}
+    .btn{
+      background: var(--color-accent);
+      color: #fff;
+      border-radius: 9999px;
+      padding: .9rem 1.25rem;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+      box-shadow: 0 8px 24px rgba(166,118,75,.24);
+      will-change: transform;
+      opacity: 1 !important; /* always solid, never dim */
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 12px 26px rgba(166,118,75,.34); }
+    .btn:active{ transform: translateY(0); }
+
+    /* Liquid-style accents (visual only) */
+    .bg-blob{ position:absolute; filter: blur(60px); opacity:.7; pointer-events:none; }
+    .blob-1{ top:-10%; left:-10%; width:480px; height:480px; border-radius:50%; background: radial-gradient( circle at 30% 30%, rgba(166,118,75,.35), transparent 60% ); }
+    .blob-2{ bottom:-12%; right:-8%; width:520px; height:520px; border-radius:45% 55% 60% 40% / 55% 45% 55% 45%; background: radial-gradient( circle at 60% 60%, rgba(166,118,75,.22), transparent 65% ); }
+
+    .glass{
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 28px rgba(0,0,0,.06);
+      backdrop-filter: saturate(140%) blur(18px);
+      -webkit-backdrop-filter: saturate(140%) blur(18px);
+    }
+
+    section{ scroll-margin-top: calc(var(--header-h) + 8px); }
+
+    .input{
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 14px;
+      padding: .9rem 1rem;
+      width: 100%;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .input:focus{ outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 4px rgba(166,118,75,.15); }
+
+    .chip{ border:1px solid rgba(0,0,0,.06); background: rgba(255,255,255,.6); border-radius:9999px; padding:.4rem .8rem; font-size:.9rem }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity: 1 !important; transform: none !important; }
+    }
+      /* Hero upgrades */
+    .hero-min{ min-height:72vh; }
+    @media (min-width:768px){ .hero-min{ min-height:78vh; } }
+    .outline-btn{ border-radius:9999px; padding:.9rem 1.1rem; border:1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.7); backdrop-filter: blur(6px); }
+    .outline-btn:hover{ background: rgba(255,255,255,.9); }
+    .hero-art{ position:relative; }
+    .mock{ position:relative; border-radius:24px; background: rgba(255,255,255,.68); border:1px solid rgba(0,0,0,.06); backdrop-filter: blur(10px); height:420px; box-shadow: 0 20px 60px rgba(0,0,0,.08); }
+    @media (max-width:640px){ .mock{ height:320px; } }
+    .mock .bar{ height:46px; border-bottom:1px solid rgba(0,0,0,.06); display:flex; align-items:center; gap:8px; padding:0 16px; }
+    .mock .dot{ width:10px; height:10px; border-radius:9999px; background: rgba(166,118,75,.35); }
+    .mock .line{ height:12px; border-radius:6px; background: rgba(0,0,0,.08); margin:10px 16px; }
+    .mock .tile{ position:absolute; left:16px; right:16px; top:86px; bottom:16px; border-radius:16px; border:1px dashed rgba(0,0,0,.08); display:grid; grid-template-columns:1fr; gap:10px; padding:12px; }
+    .mock .card{ position:absolute; right:-14%; bottom:8%; width:180px; padding:12px; border-radius:16px; background: rgba(255,255,255,.95); border:1px solid rgba(0,0,0,.06); box-shadow: 0 12px 30px rgba(0,0,0,.10); }
+    .mock .badge{ font-weight:700; color: var(--ink); }
+    .paw{ position:absolute; opacity:.12; width:120px; height:120px; }
+    .paw svg{ width:100%; height:100%; fill: var(--color-accent); }
+    .paw-1{ top:-24px; right:-18px; }
+    .paw-2{ bottom:-28px; left:-18px; transform: rotate(-12deg); }
+  </style>
+</head>
+<body class="min-h-screen">
+  <a href="#inicio" class="sr-only focus:not-sr-only fixed z-[999] top-4 left-4 bg-black text-white px-3 py-2 rounded">Saltar al contenido</a>
+
+  <!-- Decorative blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+
+  <!-- Navbar -->
+  <header id="siteHeader" class="fixed top-0 left-0 right-0 z-50">
+    <div class="mx-auto max-w-7xl px-4">
+      <nav class="glass mt-4 flex items-center justify-between rounded-2xl px-4 py-3">
+        <a href="#inicio" class="flex items-center gap-3 anchor">
+          <div class="h-9 w-9 rounded-xl bg-white/70 backdrop-blur-md ring-1 ring-white/60 flex items-center justify-center">
+            <span class="display text-xl" aria-hidden="true">🐾</span>
+          </div>
+          <div>
+            <div class="display text-lg leading-none">Fundación Cloe</div>
+            <div class="text-xs opacity-70 leading-tight">Una voz para los animales</div>
+          </div>
+        </a>
+        <button id="navBtn" class="lg:hidden ml-4 inline-flex h-10 w-10 items-center justify-center rounded-xl glass" aria-label="Abrir menú">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <ul id="navMenu" class="hidden lg:flex items-center gap-6 text-sm">
+          <li><a class="hover:opacity-70 anchor" href="#importancia">Importancia</a></li>
+          <li><a class="hover:opacity-70 anchor" href="#ayudados">Ayudados</a></li>
+          <li><a class="hover:opacity-70 anchor" href="#acerca">Acerca</a></li>
+          <li><a class="hover:opacity-70 anchor" href="#mision">Misión</a></li>
+          <li><a class="hover:opacity-70 anchor" href="#equipo">Equipo</a></li>
+          <li><a class="hover:opacity-70 anchor" href="#servicios">Servicios</a></li>
+          <li><a class="btn text-sm anchor" href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <div id="mobileMenu" class="hidden lg:hidden mt-2 glass rounded-2xl p-3">
+        <ul class="grid grid-cols-2 gap-2 text-sm">
+          <li><a class="block rounded-xl px-3 py-2 hover:bg-white/60 anchor" href="#importancia">Importancia</a></li>
+          <li><a class="block rounded-xl px-3 py-2 hover:bg-white/60 anchor" href="#ayudados">Ayudados</a></li>
+          <li><a class="block rounded-xl px-3 py-2 hover:bg-white/60 anchor" href="#acerca">Acerca</a></li>
+          <li><a class="block rounded-xl px-3 py-2 hover:bg-white/60 anchor" href="#mision">Misión</a></li>
+          <li><a class="block rounded-xl px-3 py-2 hover:bg-white/60 anchor" href="#equipo">Equipo</a></li>
+          <li><a class="block rounded-xl px-3 py-2 hover:bg-white/60 anchor" href="#servicios">Servicios</a></li>
+          <li class="col-span-2"><a class="btn block text-center anchor" href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="inicio" class="pt-28">
+    <section class="mx-auto max-w-7xl px-4 hero-min">
+      <div class="grid lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-6 reveal">
+          <span class="chip inline-flex items-center gap-2">🐾<span>Sitios web gratis para fundaciones de animales</span></span>
+          <h1 class="display text-[2.5rem] sm:text-5xl md:text-6xl leading-tight">Tu causa, con voz propia en Internet.</h1>
+          <p class="text-lg md:text-xl max-w-2xl">Diseño <span aria-hidden>+</span> desarrollo en Squarespace — rápido de mantener, accesible y pensado para recaudar, educar e involucrar a tu comunidad.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#contacto" class="btn anchor">Comienza gratis</a>
+            <a href="#ayudados" class="outline-btn anchor inline-flex items-center gap-2">Ver caso FUCAN <span aria-hidden>↘</span></a>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 text-sm opacity-80">
+            <div class="chip">Diseño + desarrollo</div>
+            <div class="chip">Migración a Squarespace</div>
+            <div class="chip">Donación 1 año (según caso)</div>
+          </div>
+        </div>
+        <div class="lg:col-span-5 reveal hero-art">
+          <div class="mock">
+            <div class="bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <div class="line" style="width: 40%; margin-left: 12px;"></div>
+            </div>
+            <div class="tile">
+              <div class="line" style="width: 80%;"></div>
+              <div class="line" style="width: 65%;"></div>
+              <div class="line" style="width: 90%;"></div>
+              <div class="line" style="width: 75%;"></div>
+            </div>
+            <div class="card">
+              <div class="display text-lg">Gratis</div>
+              <div class="text-xs opacity-70">Diseño y desarrollo</div>
+            </div>
+          </div>
+          <div class="paw paw-1">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M20 22c-4 0-6-3-6-6s2-6 6-6 6 3 6 6-2 6-6 6zm24 0c-4 0-6-3-6-6s2-6 6-6 6 3 6 6-2 6-6 6zM12 36c-5 0-8-4-8-8s3-8 8-8 8 4 8 8-3 8-8 8zm40 0c-5 0-8-4-8-8s3-8 8-8 8 4 8 8-3 8-8 8zM22 36c0-6 5-10 10-10s10 4 10 10-5 14-10 14-10-8-10-14z"/></svg>
+          </div>
+          <div class="paw paw-2">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M20 22c-4 0-6-3-6-6s2-6 6-6 6 3 6 6-2 6-6 6zm24 0c-4 0-6-3-6-6s2-6 6-6 6 3 6 6-2 6-6 6zM12 36c-5 0-8-4-8-8s3-8 8-8 8 4 8 8-3 8-8 8zM22 36c0-6 5-10 10-10s10 4 10 10-5 14-10 14-10-8-10-14z"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Importancia -->
+    <section id="importancia" class="mx-auto max-w-7xl px-4 mt-24">
+      <div class="grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-5 reveal">
+          <div class="glass rounded-3xl p-6">
+            <h2 class="display text-3xl mb-3">La importancia de un sitio bien diseñado</h2>
+            <p class="opacity-90">Un sitio web es vital para conectar con la comunidad, educar al público y recaudar los recursos necesarios para continuar con tu labor. Me ocupo de que tu sitio esté bien diseñado, sea claro y fácil de usar para maximizar su impacto.</p>
+          </div>
+        </div>
+        <div class="md:col-span-7 reveal">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="glass rounded-2xl p-5">
+              <div class="display text-lg">Confianza</div>
+              <p class="text-sm opacity-80">Diseño profesional y accesible que transmite credibilidad.</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+              <div class="display text-lg">Educación</div>
+              <p class="text-sm opacity-80">Contenido claro para informar y sensibilizar a tu audiencia.</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+              <div class="display text-lg">Donaciones</div>
+              <p class="text-sm opacity-80">Estructura preparada para activar campañas y apoyos.</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+              <div class="display text-lg">Voluntariado</div>
+              <p class="text-sm opacity-80">Formularios y flujos simples para sumar manos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ayudados -->
+    <section id="ayudados" class="mx-auto max-w-7xl px-4 mt-24">
+      <div class="reveal">
+        <div class="flex items-end justify-between mb-6">
+          <h2 class="display text-3xl">Conoce a quienes hemos ayudado</h2>
+          <a href="#contacto" class="hidden sm:inline-block btn anchor">Sé la próxima fundación</a>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="glass rounded-3xl overflow-hidden">
+            <div class="p-6">
+              <div class="text-xs uppercase tracking-wide opacity-70 mb-2">Caso</div>
+              <h3 class="text-xl font-semibold mb-1">FUCAN</h3>
+              <p class="opacity-80 text-sm mb-3">Diseño y desarrollo completos del sitio. Enfoque en claridad y accesibilidad.</p>
+              <a class="inline-flex items-center gap-2 underline hover:opacity-70" href="https://fucan.cl" target="_blank" rel="noopener">fucan.cl <span aria-hidden>↗</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acerca de -->
+    <section id="acerca" class="mx-auto max-w-7xl px-4 mt-24">
+      <div class="grid md:grid-cols-2 gap-8 items-stretch">
+        <div class="glass rounded-3xl p-6 reveal">
+          <h2 class="display text-3xl mb-3">Acerca de</h2>
+          <p class="opacity-90">¡Hola! Soy <strong>Francisco</strong>, el creador detrás de este proyecto. Nació por una perrita muy especial: <strong>Cloe</strong>. Compartimos poco más de un año—marcado por amor, lealtad y aprendizaje—antes de que partiera por un cáncer intratable. Para honrarla, transformé ese amor en acción: ayudar a fundaciones de animales a tener una voz clara en Internet.</p>
+          <p class="mt-4 opacity-90">Diseño, desarrollo y cuido cada detalle para que tu sitio traiga claridad e inspiración a tu causa, como Cloe lo hizo conmigo.</p>
+          <p class="mt-4">Gracias por estar aquí — <em>Fran</em>.</p>
+        </div>
+        <div class="glass rounded-3xl p-6 reveal">
+          <h3 class="display text-2xl mb-3">Creación de lugares en línea</h3>
+          <p class="opacity-90">Buenas prácticas para entidades dedicadas a los animales: accesibilidad, privacidad y transparencia.</p>
+          <ul class="mt-4 grid gap-3 text-sm">
+            <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full" style="background:var(--color-accent)"></span> Accesible y responsive</li>
+            <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full" style="background:var(--color-accent)"></span> Contenido claro y empático</li>
+            <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full" style="background:var(--color-accent)"></span> Mantenimiento sencillo</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Misión -->
+    <section id="mision" class="mx-auto max-w-7xl px-4 mt-24">
+      <div class="glass rounded-3xl p-6 reveal">
+        <h2 class="display text-3xl mb-3">Misión</h2>
+        <p class="opacity-90">Empoderar a organizaciones de rescate y defensa animal con una presencia en línea sólida. Para muchas fundaciones pequeñas, el costo es una barrera: por eso el <strong>diseño y el desarrollo son gratuitos</strong> y, en casos de mayor necesidad, donamos <strong>un año de suscripción</strong> en la plataforma (Squarespace) para que puedan enfocarse en lo esencial: los animales.</p>
+        <div class="grid sm:grid-cols-3 gap-4 mt-4">
+          <div class="glass rounded-2xl p-5">
+            <div class="display text-lg">Confianza &amp; credibilidad</div>
+            <p class="text-sm opacity-80">Sitios profesionales que inspiran apoyo.</p>
+          </div>
+          <div class="glass rounded-2xl p-5">
+            <div class="display text-lg">Educación</div>
+            <p class="text-sm opacity-80">Recursos para informar sobre los problemas locales.</p>
+          </div>
+          <div class="glass rounded-2xl p-5">
+            <div class="display text-lg">Participación</div>
+            <p class="text-sm opacity-80">Flujos simples para voluntariado y recaudación.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipo -->
+    <section id="equipo" class="mx-auto max-w-7xl px-4 mt-24">
+      <div class="reveal grid sm:grid-cols-2 gap-6">
+        <article class="glass rounded-3xl p-6 flex items-center gap-4">
+          <img class="h-20 w-20 rounded-2xl object-cover ring-1 ring-black/5" alt="Foto de Francisco Fernández" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='100%' height='100%' fill='%23FFF'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Manrope' font-size='56' fill='%232E2A25'>Fran</text></svg>" />
+          <div>
+            <h3 class="display text-2xl">Francisco Fernández</h3>
+            <p class="opacity-90 mt-1">Project Manager en creación de sitios (e‑commerce) desde 2018.</p>
+          </div>
+        </article>
+        <article class="glass rounded-3xl p-6 flex items-center gap-4">
+          <img class="h-20 w-20 rounded-2xl object-cover ring-1 ring-black/5" alt="Foto de Javier (perro)" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='100%' height='100%' fill='%23FFF'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Manrope' font-size='56' fill='%232E2A25'>Javier</text></svg>" />
+          <div>
+            <h3 class="display text-2xl">Javier Fernández</h3>
+            <p class="opacity-90 mt-1">Ayudante principal e inspiración. Profesional del sueño desde hace 8 años.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="mx-auto max-w-7xl px-4 mt-24">
+      <h2 class="display text-3xl mb-6 reveal">Nuestros servicios</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="glass rounded-3xl p-6 reveal">
+          <div class="text-xs uppercase tracking-wide opacity-70 mb-2">Creación</div>
+          <h3 class="text-xl font-semibold mb-2">Diseño y desarrollo</h3>
+          <p class="opacity-90">Sitios en Squarespace: sin código, fáciles de mantener para equipos pequeños.</p>
+        </article>
+        <article class="glass rounded-3xl p-6 reveal">
+          <div class="text-xs uppercase tracking-wide opacity-70 mb-2">Mantención</div>
+          <h3 class="text-xl font-semibold mb-2">Actualización o migración</h3>
+          <p class="opacity-90">Si tu sitio está desactualizado, lo mejoramos o lo migramos a Squarespace.</p>
+        </article>
+        <article class="glass rounded-3xl p-6 reveal">
+          <div class="text-xs uppercase tracking-wide opacity-70 mb-2">Donación</div>
+          <h3 class="text-xl font-semibold mb-2">Hasta 1 año de suscripción</h3>
+          <p class="opacity-90">Para fundaciones que más lo necesiten, cubrimos la suscripción del primer año.</p>
+        </article>
+      </div>
+      <div class="glass rounded-3xl p-6 mt-6 reveal">
+        <p class="text-lg">No aceptamos donaciones. Si quieres apoyar, te invito a donar a una fundación de tu comunidad. ¿Necesitas sugerencias? Escríbeme y te conecto con organizaciones cercanas.</p>
+      </div>
+    </section>
+
+    <!-- Comencemos CTA (anchors to contacto) -->
+    <section class="mx-auto max-w-7xl px-4 mt-24">
+      <div class="grid md:grid-cols-2 gap-6 reveal">
+        <article class="glass rounded-3xl p-6">
+          <div class="text-xs uppercase tracking-wide opacity-70 mb-2">Comencemos</div>
+          <h3 class="text-xl font-semibold mb-2">Creación desde cero</h3>
+          <p class="opacity-90">¿No tienes sitio? Creamos uno totalmente gratis.</p>
+          <a href="#contacto" class="btn inline-block mt-4 anchor">Solicitar</a>
+        </article>
+        <article class="glass rounded-3xl p-6">
+          <div class="text-xs uppercase tracking-wide opacity-70 mb-2">Comencemos</div>
+          <h3 class="text-xl font-semibold mb-2">Mantención</h3>
+          <p class="opacity-90">¿Ya tienes sitio? Lo mejoramos o le damos nueva vida.</p>
+          <a href="#contacto" class="btn inline-block mt-4 anchor">Hablemos</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contacto (centered full-width on all screens) -->
+    <section id="contacto" class="mx-auto max-w-7xl px-4 mt-24 mb-24">
+      <div class="reveal">
+        <h2 class="display text-3xl mb-6 text-center">Contacto</h2>
+        <form id="leadForm" class="glass rounded-3xl p-6 md:p-8 max-w-2xl mx-auto" novalidate>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="nombre" class="text-sm">Nombre <span class="text-red-600">(obligatorio)</span></label>
+              <input id="nombre" name="given-name" autocomplete="given-name" type="text" class="input mt-1" placeholder="Nombre" required />
+            </div>
+            <div>
+              <label for="apellido" class="text-sm">Apellido</label>
+              <input id="apellido" name="family-name" autocomplete="family-name" type="text" class="input mt-1" placeholder="Apellido" />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="email" class="text-sm">Email <span class="text-red-600">(obligatorio)</span></label>
+              <input id="email" name="email" autocomplete="email" type="email" class="input mt-1" placeholder="tufundacion@email.com" required />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="fundacion" class="text-sm">Nombre de tu fundación <span class="text-red-600">(obligatorio)</span></label>
+              <input id="fundacion" name="organization" autocomplete="organization" type="text" class="input mt-1" placeholder="FUCAN…" required />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="servicio" class="text-sm">Servicio <span class="text-red-600">(obligatorio)</span></label>
+              <select id="servicio" name="service" class="input mt-1" required>
+                <option value="" selected>Selecciona una opción</option>
+                <option>Creación de sitio</option>
+                <option>Mantención / mejora</option>
+                <option>Migración a Squarespace</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="mensaje" class="text-sm">Mensaje <span class="text-red-600">(obligatorio)</span></label>
+              <textarea id="mensaje" name="message" class="input mt-1 min-h-[140px]" placeholder="Cuéntame sobre tu fundación…" required></textarea>
+            </div>
+            <!-- honeypot -->
+            <div class="hidden">
+              <label>Déjalo vacío</label>
+              <input type="text" name="company" tabindex="-1" autocomplete="off" />
+            </div>
+          </div>
+          <button type="submit" class="btn mt-4">Enviar</button>
+          <p id="formAlert" class="mt-3 text-sm" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-7xl px-4 mb-10">
+    <div class="glass rounded-2xl p-4 text-sm flex flex-col md:flex-row items-center justify-between gap-3">
+      <div>© <span id="y"></span> Fundación Cloe</div>
+      <div class="opacity-80">Hecho con cariño</div>
+    </div>
+  </footer>
+
+  <script>
+    // Keep CSS var in sync with actual header height
+    const header = document.getElementById('siteHeader');
+    function setHeaderH(){
+      const h = header?.getBoundingClientRect().height || 96;
+      document.documentElement.style.setProperty('--header-h', `${Math.round(h + 8)}px`);
+    }
+    setHeaderH();
+    new ResizeObserver(setHeaderH).observe(header);
+    window.addEventListener('orientationchange', setHeaderH);
+
+    // Smooth anchor scrolling with offset & scrollspy
+    const anchors = document.querySelectorAll('a.anchor[href^="#"]');
+    anchors.forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const targetId = a.getAttribute('href');
+        if(!targetId || targetId === '#') return;
+        const el = document.querySelector(targetId);
+        if(!el) return;
+        e.preventDefault();
+        const y = el.getBoundingClientRect().top + window.scrollY - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||0) + 1;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        // Close mobile menu if open
+        document.getElementById('mobileMenu')?.classList.add('hidden');
+      });
+    });
+
+    // Scrollspy: highlight active nav link
+    const sections = Array.from(document.querySelectorAll('main section[id]'));
+    const navLinks = Array.from(document.querySelectorAll('#navMenu a.anchor:not(.btn)'));
+    // ensure the header CTA never inherits opacity classes
+    document.querySelectorAll('#navMenu a.btn').forEach(el=> el.classList.remove('opacity-60','opacity-100'));
+    function onScroll(){
+      const pos = window.scrollY + (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||0) + 12;
+      let current = sections[0]?.id;
+      for(const s of sections){
+        if(pos >= s.offsetTop) current = s.id;
+      }
+      navLinks.forEach(l=>{
+        const isActive = l.getAttribute('href') === `#${current}`;
+        l.classList.toggle('opacity-100', isActive);
+        l.classList.toggle('opacity-60', !isActive);
+        l.setAttribute('aria-current', isActive ? 'page' : 'false');
+      });
+    }
+    document.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('load', onScroll);
+
+    // Mobile nav open/close
+    const btn = document.getElementById('navBtn');
+    const mobile = document.getElementById('mobileMenu');
+    btn?.addEventListener('click', ()=> mobile.classList.toggle('hidden'));
+    mobile?.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mobile.classList.add('hidden')));
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.animate([
+            {opacity:0, transform:'translateY(12px)'},
+            {opacity:1, transform:'translateY(0)'}
+          ], {duration:600, easing:'cubic-bezier(.2,.8,.2,1)', fill:'forwards'});
+          io.unobserve(e.target);
+        }
+      })
+    }, { threshold:.12 });
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+    // Simple form validate + fake submit
+    const form = document.getElementById('leadForm');
+    const alertEl = document.getElementById('formAlert');
+    form?.addEventListener('submit', (ev)=>{
+      ev.preventDefault();
+      alertEl.textContent = '';
+      const data = new FormData(form);
+      const required = ['given-name','email','organization','service','message'];
+      const missing = required.filter(k=> !String(data.get(k)||'').trim());
+      if(missing.length){
+        alertEl.textContent = 'Por favor completa los campos obligatorios.';
+        alertEl.style.color = '#b42318';
+        return;
+      }
+      // Replace with your endpoint (Formspree, Airtable, Zapier, etc.)
+      alertEl.textContent = '¡Gracias! Tu mensaje fue recibido. Te contactaré pronto.';
+      alertEl.style.color = 'var(--color-accent)';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
